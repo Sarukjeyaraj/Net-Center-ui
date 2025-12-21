@@ -1,0 +1,16 @@
+.background-container {
+  height: 100vh; /* Full screen */
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  /* Background image */
+   background-image: url('assets/bg.svg');   
+  background-size: cover;       /* Cover the whole container */
+  background-position: center;  /* Center the image */
+  background-repeat: no-repeat; /* No repeat */
+  color: white; /* Text color so it's visible */
+  text-align: center;
+}

@@ -1,0 +1,315 @@
+/* ================= RESET & BASE ================= */
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  font-family: Arial, sans-serif;
+  background: #f8f9fa;
+}
+
+/* .app {
+  background-image: url('/src/assets/WhatsApp\ Image\ 2025-09-21\ at\ 20.31.35_3f475f80.jpg');
+  background-size: cover;   
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;  
+  width: 100%;   
+} */
+
+
+/* ================= NAVBAR ================= */
+.nav {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background: #0d6efd;
+  padding: 15px 30px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.head {
+  margin-right: 30px;
+  font-size: 18px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.head:hover {
+  color: #ffd700;
+  transform: scale(1.05);
+}
+
+.head.active {
+  background-color: #ffd700;
+  color: black;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+/* ================= SLIDESHOW BACKGROUND ================= */
+.slideshow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; 
+  overflow: hidden;
+}
+
+.slideshow img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  animation: fadeSlide 15s infinite;
+}
+
+/* Images Animation Order */
+.slideshow img:nth-child(1) { animation-delay: 0s; }
+.slideshow img:nth-child(2) { animation-delay: 5s; }
+.slideshow img:nth-child(3) { animation-delay: 10s; }
+
+@keyframes fadeSlide {
+  0%   { opacity: 0; transform: scale(1.1); }
+  10%  { opacity: 1; transform: scale(1); }
+  30%  { opacity: 1; transform: scale(1); }
+  40%  { opacity: 0; transform: scale(1.1); }
+  100% { opacity: 0; }
+}
+
+/* ================= SECTIONS ================= */
+.section {
+  scroll-margin-top: 70px;
+  font-size: 24px;
+  color: white;
+  position: relative;
+  z-index: 1;
+  backdrop-filter: brightness(0.7);
+  padding: 20px;
+}
+
+.home { 
+  /* background-color: aqua;  */
+  height: 550px; }
+.work {
+   /* background-color: bisque;  */
+  height: auto; min-height: 550px; }
+.connectus { 
+  /* background-color: aquamarine; */
+   height: 450px; }
+
+/* ================= SERVICE CARDS ================= */
+.serviceCard {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 30px;
+}
+
+.card {
+  flex: 1 1 250px;
+  max-width: 300px;
+  background: #fff;
+  color: #333;
+  border-radius: 12px;
+  padding: 20px 30px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.card h2 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #0d6efd;
+  text-align: center;
+}
+
+.card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.card ul li {
+  font-size: 16px;
+  margin: 8px 0;
+  padding-left: 25px;
+  position: relative;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.card ul li::before {
+  content: "✅";
+  position: absolute;
+  left: 0;
+  color: #28a745;
+}
+
+.card ul li:hover {
+  color: #0d6efd;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* ================= POPUP & OVERLAY ================= */
+#overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 4000;
+}
+
+#subServiceBox {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  padding: 16px 16px 8px;
+  border-radius: 12px;
+  width: 360px;
+  max-width: 92vw;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+  z-index: 5000;
+  animation: popupFade 0.2s ease-out;
+}
+
+#subServiceClose {
+  position: sticky;
+  top: 0;
+  float: right;
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px 6px;
+}
+
+#subServiceList {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+}
+
+#subServiceList li {
+  padding: 10px 12px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+#subServiceList li:last-child { border-bottom: none; }
+#subServiceList li:hover { background: #f0f6ff; color: #0d6efd; }
+
+@keyframes popupFade {
+  from { opacity: 0; transform: translate(-50%, -46%); }
+  to   { opacity: 1; transform: translate(-50%, -50%); }
+}
+
+/* ================= WHATSAPP & CALL BUTTONS ================= */
+.whatapp,
+.call {
+  position: fixed;
+  right: 20px;
+  border: none;
+  color: white;
+  border-radius: 50%;
+  height: 60px;
+  width: 60px;
+  font-size: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0);
+  z-index: 10;
+}
+
+.whatapp { bottom: 20px; background-color: #25d366; }
+.call { bottom: 100px; background-color: #28a745; }
+
+.whatapp:hover,
+.call:hover {
+  transform: scale(1.1);
+}
+
+.connectus.active .whatapp,
+.connectus.active .call {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+}
+
+.connectus.active .call {
+  animation: ring 1.5s infinite;
+}
+
+@keyframes ring {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  10% { transform: rotate(15deg); }
+  20% { transform: rotate(-15deg); }
+  30% { transform: rotate(10deg); }
+  40% { transform: rotate(-10deg); }
+  50% { transform: rotate(5deg); }
+  60% { transform: rotate(-5deg); }
+  70% { transform: rotate(0deg); }
+}
+
+/* ================= CALL POPUP ================= */
+.call-popup {
+  display: none;
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  z-index: 2000;
+  text-align: center;
+}
+
+.call-popup a {
+  color: #0d6efd;
+  font-size: 18px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.call-popup a:hover {
+  text-decoration: underline;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+  .nav {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  .head {
+    margin: 10px 0;
+  }
+}

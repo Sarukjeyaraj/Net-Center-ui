@@ -1,0 +1,248 @@
+<div class="full">
+  <nav class="nav">
+    <h3 class="head" data-target="home">Home</h3>
+    <h3 class="head" data-target="work">Work</h3>
+    <h3 class="head" data-target="connectus">Connect Us</h3>
+    <h5 class="language">English</h5>
+    <h5 class="language">Tamil</h5>
+  </nav>
+  <div class="app">
+    <div class="home section" id="home">
+      <h1>hi</h1>
+      <p>Welcome to [Your Center Name], your trusted digital and documentation service provider.</p>
+    </div>
+
+    <div class="work section" id="work" style="color: black;">
+      <h3>🛠️ Services We Offer</h3>
+
+      <div class="serviceCard">
+        <div class="card">
+          <h2>Government Proof Applications</h2>
+          <ul class="serviceList">
+            <li data-service="aadhar">Aadhar Card Assistance</li>
+            <li data-service="pan">PAN Card Application</li>
+            <li data-service="voter">Voter ID Registration & Correction</li>
+            <li data-service="passport">Passport Application Help</li>
+            <li data-service="license">Driving License Forms</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h2>Online Form Filling</h2>
+          <ul class="serviceList">
+            <li data-service="TNEGA">TNEGA All Services</li>
+            <li data-service="ExamApplication">Government & Private Exam Application</li>
+            <li data-service="college">College Admission Forms</li>
+            <li data-service="scholar">Scholarship Applications</li>
+            <li data-service="pf">PF Services</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h2>Land & Legal Documentation</h2>
+          <ul class="serviceList">
+            <li data-service="patta">Patta/Chitta Online Services</li>
+            <li data-service="ec">EC, Land Ownership Transfers</li>
+            <li data-service="stamp">Stamp Duty Calculations</li>
+            <li data-service="document">Document Printing & Scanning</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h2>General Services</h2>
+          <ul class="serviceList">
+            <li data-service="print">Printing & Xerox</li>
+            <li data-service="scanning">Scanning & Emailing</li>
+            <li data-service="lamination">Lamination & Spiral Binding</li>
+            <li data-service="typing">Typing Work</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Overlay + Popup -->
+      <div id="overlay"></div>
+      <div id="subServiceBox">
+        <button id="subServiceClose">X</button>
+        <h3>Available Services</h3>
+        <ul id="subServiceList"></ul>
+      </div>
+    </div>
+
+    <div class="connectus section" id="connectus">
+      <div class="address">
+        <p><i class="fa-solid fa-location-dot"></i> No.233, Annasalai, Chengalpattu</p>
+        <p><i class="fa-solid fa-envelope"></i>123ldmlskmd@gmail.com</p>
+        <p> 📞 9585556858, 9143693693, 9566193693</p>
+      </div>
+
+      <button class="call" (click)="showCallPopup()">
+        <i class="fa-solid fa-phone-volume"></i>
+      </button>
+      <button class="whatapp" (click)="openWhatsApp()">
+        <i class="fa-brands fa-whatsapp"></i>
+      </button>
+
+      <div id="call-popup" class="call-popup">
+        <h3>Contact Us</h3>
+        <p>Name: John Doe</p>
+        <a href="tel:+919876543210">+91 9876543210</a>
+        <br />
+        <button (click)="closeCallPopup()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<section class="relative bg-cover bg-center h-screen flex items-center justify-center text-center text-white"
+  style="background-image: url('assets/bg.svg');">
+  <div class="bg-black/50 absolute inset-0"></div>
+  <div class="relative z-10 max-w-3xl px-4">
+    <h1 class="text-4xl md:text-6xl font-bold mb-4">One Stop for All Online & Government Services</h1>
+    <p class="text-lg md:text-xl mb-6">A trusted center for Aadhar, PAN, Voter ID, Exam Applications, Land Documents,
+      and More</p>
+    <div class="space-x-4">
+      <a href="#contact" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold">✅ Book an
+        Appointment</a>
+      <a href="tel:+919876543210"
+        class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold">📞 Call Now</a>
+    </div>
+  </div>
+</section>
+
+<!-- About Us -->
+<section id="about" class="py-16 bg-white">
+  <div class="max-w-5xl mx-auto px-4 text-center">
+    <h2 class="text-3xl font-bold mb-6">👨‍💼 Who We Are</h2>
+    <p class="text-lg leading-relaxed">Welcome to <strong>Think Net Center</strong>, your trusted digital and
+      documentation service provider. We help individuals and businesses with all types of government-related services,
+      online form submissions, and official paperwork. With expert staff and fast service, we make complex processes
+      simple and stress-free.</p>
+  </div>
+</section>
+
+<!-- Services -->
+<section id="services" class="py-16 bg-gray-100">
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-10">🛠️ Services We Offer</h2>
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+
+      <!-- Government Proof -->
+      <div class="bg-white shadow-lg rounded-xl p-6">
+        <h3 class="font-bold text-lg mb-4">📄 Government Proof Applications</h3>
+        <ul class="space-y-2">
+          <li>✅ Aadhar Card Assistance</li>
+          <li>✅ PAN Card Application</li>
+          <li>✅ Voter ID Registration & Correction</li>
+          <li>✅ Passport Application Help</li>
+        </ul>
+      </div>
+
+      <!-- Online Forms -->
+      <div class="bg-white shadow-lg rounded-xl p-6">
+        <h3 class="font-bold text-lg mb-4">📝 Online Form Filling</h3>
+        <ul class="space-y-2">
+          <li>✅ TNPSC, UPSC, SSC, Bank Exams</li>
+          <li>✅ College Admission Forms</li>
+          <li>✅ Scholarship Applications</li>
+          <li>✅ Driving License Forms</li>
+        </ul>
+      </div>
+
+      <!-- Land & Legal -->
+      <div class="bg-white shadow-lg rounded-xl p-6">
+        <h3 class="font-bold text-lg mb-4">📚 Land & Legal Documentation</h3>
+        <ul class="space-y-2">
+          <li>✅ Patta/Chitta Online Services</li>
+          <li>✅ EC, Land Ownership Transfers</li>
+          <li>✅ Stamp Duty Calculations</li>
+          <li>✅ Document Printing & Scanning</li>
+        </ul>
+      </div>
+
+      <!-- General -->
+      <div class="bg-white shadow-lg rounded-xl p-6">
+        <h3 class="font-bold text-lg mb-4">🖨️ General Services</h3>
+        <ul class="space-y-2">
+          <li>✅ Printing & Xerox (B/W & Color)</li>
+          <li>✅ Scanning & Emailing</li>
+          <li>✅ Lamination & Spiral Binding</li>
+          <li>✅ Resume Creation & Typing Work</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Why Choose Us -->
+<section class="py-16 bg-white">
+  <div class="max-w-5xl mx-auto px-4 text-center">
+    <h2 class="text-3xl font-bold mb-8">💡 Why People Trust Us</h2>
+    <ul class="grid md:grid-cols-2 gap-6 text-lg">
+      <li>✅ Fast & Accurate Documentation</li>
+      <li>✅ Affordable Service Charges</li>
+      <li>✅ Friendly, Trained Staff</li>
+      <li>✅ Comfortable & Safe Environment</li>
+      <li>✅ Local Language Support (English, Tamil, etc.)</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="py-16 bg-gray-100">
+  <div class="max-w-5xl mx-auto px-4 text-center">
+    <h2 class="text-3xl font-bold mb-8">🌟 Testimonials</h2>
+    <div class="grid md:grid-cols-2 gap-8">
+      <blockquote class="bg-white shadow-md rounded-xl p-6">
+        “I got my PAN and Aadhar updated in 15 minutes. Excellent service!”
+        <span class="block mt-4 font-semibold">– Arun K., Customer</span>
+      </blockquote>
+      <blockquote class="bg-white shadow-md rounded-xl p-6">
+        “Very helpful staff. They filled my TNPSC application correctly and on time.”
+        <span class="block mt-4 font-semibold">– Mohana P., Student</span>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- Call to Action -->
+<section id="contact" class="py-16 bg-blue-600 text-white text-center">
+  <h2 class="text-3xl font-bold mb-4">💼 Need Help with Any Document or Online Form?</h2>
+  <p class="mb-6">Visit our center today or call us for a quick consultation.</p>
+  <div class="space-x-4">
+    <a href="#about" class="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold">📅 Schedule a Visit</a>
+    <a href="https://goo.gl/maps/example" class="bg-green-500 px-6 py-3 rounded-lg font-semibold">📍 Get Directions</a>
+    <a href="tel:+919876543210" class="bg-red-500 px-6 py-3 rounded-lg font-semibold">📞 Call Now</a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-gray-900 text-gray-300 py-8">
+  <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-3 gap-8">
+    <div>
+      <h3 class="font-bold text-white text-lg mb-2">📍 Address</h3>
+      <p>Think Net Center<br>123 Main Street, Your City<br>Tamil Nadu, India</p>
+    </div>
+    <div>
+      <h3 class="font-bold text-white text-lg mb-2">📞 Contact</h3>
+      <p>Phone: +91 9876543210</p>
+      <p>Email: info@thinknetcenter.com</p>
+      <p>Hours: Mon-Sat, 9 AM - 7 PM</p>
+    </div>
+    <div>
+      <h3 class="font-bold text-white text-lg mb-2">🌐 Follow Us</h3>
+      <p>Facebook | Instagram | WhatsApp</p>
+    </div>
+  </div>
+  <p class="text-center mt-6 text-sm text-gray-500">© 2025 Think Net Center. All rights reserved.</p>
+</footer>
+
+
+
+
+
+
+<router-outlet />
