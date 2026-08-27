@@ -1,5 +1,15 @@
-*{
-padding: 0%;
-margin: 0%;
-box-sizing: border-box;
+/* Global Application Styles */
+@import "./styles/theme.css";
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--primary-dark);
+  color: var(--text-main);
+  line-height: 1.6;
 }

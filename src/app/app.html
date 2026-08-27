@@ -1,248 +1,546 @@
-<div class="full">
-  <nav class="nav">
-    <h3 class="head" data-target="home">Home</h3>
-    <h3 class="head" data-target="work">Work</h3>
-    <h3 class="head" data-target="connectus">Connect Us</h3>
-    <h5 class="language">English</h5>
-    <h5 class="language">Tamil</h5>
-  </nav>
-  <div class="app">
-    <div class="home section" id="home">
-      <h1>hi</h1>
-      <p>Welcome to [Your Center Name], your trusted digital and documentation service provider.</p>
-    </div>
-
-    <div class="work section" id="work" style="color: black;">
-      <h3>🛠️ Services We Offer</h3>
-
-      <div class="serviceCard">
-        <div class="card">
-          <h2>Government Proof Applications</h2>
-          <ul class="serviceList">
-            <li data-service="aadhar">Aadhar Card Assistance</li>
-            <li data-service="pan">PAN Card Application</li>
-            <li data-service="voter">Voter ID Registration & Correction</li>
-            <li data-service="passport">Passport Application Help</li>
-            <li data-service="license">Driving License Forms</li>
-          </ul>
+<div class="site-container">
+  
+  <!-- ================= NAVBAR ================= -->
+  <header class="navbar-header">
+    <div class="navbar-content">
+      <!-- Brand Logo & Name -->
+      <div class="brand-container" (click)="scrollToSection('home')">
+        <div class="brand-logo">
+          <i class="fa-solid fa-laptop-code"></i>
         </div>
-
-        <div class="card">
-          <h2>Online Form Filling</h2>
-          <ul class="serviceList">
-            <li data-service="TNEGA">TNEGA All Services</li>
-            <li data-service="ExamApplication">Government & Private Exam Application</li>
-            <li data-service="college">College Admission Forms</li>
-            <li data-service="scholar">Scholarship Applications</li>
-            <li data-service="pf">PF Services</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h2>Land & Legal Documentation</h2>
-          <ul class="serviceList">
-            <li data-service="patta">Patta/Chitta Online Services</li>
-            <li data-service="ec">EC, Land Ownership Transfers</li>
-            <li data-service="stamp">Stamp Duty Calculations</li>
-            <li data-service="document">Document Printing & Scanning</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h2>General Services</h2>
-          <ul class="serviceList">
-            <li data-service="print">Printing & Xerox</li>
-            <li data-service="scanning">Scanning & Emailing</li>
-            <li data-service="lamination">Lamination & Spiral Binding</li>
-            <li data-service="typing">Typing Work</li>
-          </ul>
+        <div class="brand-text">
+          <span class="brand-title">{{ t.nav.title }}</span>
+          <span class="brand-subtitle">{{ t.nav.subtitle }}</span>
         </div>
       </div>
 
-      <!-- Overlay + Popup -->
-      <div id="overlay"></div>
-      <div id="subServiceBox">
-        <button id="subServiceClose">X</button>
-        <h3>Available Services</h3>
-        <ul id="subServiceList"></ul>
+      <!-- Desktop Nav Links (Single Line Layout) -->
+      <nav class="desktop-nav">
+        <a class="nav-link" [class.active]="activeSection === 'home'" (click)="scrollToSection('home')">
+          <i class="fa-solid fa-house"></i> <span>{{ t.nav.home }}</span>
+        </a>
+        <a class="nav-link" [class.active]="activeSection === 'services'" (click)="scrollToSection('services')">
+          <i class="fa-solid fa-list-check"></i> <span>{{ t.nav.services }}</span>
+        </a>
+        <a class="nav-link" [class.active]="activeSection === 'about'" (click)="scrollToSection('about')">
+          <i class="fa-solid fa-circle-info"></i> <span>{{ t.nav.about }}</span>
+        </a>
+        <a class="nav-link" [class.active]="activeSection === 'hours'" (click)="scrollToSection('hours')">
+          <i class="fa-solid fa-clock"></i> <span>{{ t.nav.hours }}</span>
+        </a>
+        <a class="nav-link" [class.active]="activeSection === 'contact'" (click)="scrollToSection('contact')">
+          <i class="fa-solid fa-location-dot"></i> <span>{{ t.nav.contact }}</span>
+        </a>
+      </nav>
+
+      <!-- Nav Controls: Theme Toggle + Language Switcher + Call CTA -->
+      <div class="nav-actions">
+        <!-- Theme Switcher Toggle Button (☀️ / 🌙) -->
+        <button class="theme-toggle-btn" (click)="toggleTheme()" [title]="isDarkTheme ? 'Switch to Light Theme' : 'Switch to Dark Theme'">
+          <i class="fa-solid" [ngClass]="isDarkTheme ? 'fa-sun text-gold' : 'fa-moon text-indigo'"></i>
+          <span class="theme-btn-label">{{ isDarkTheme ? 'Light' : 'Dark' }}</span>
+        </button>
+
+        <!-- Language Selector -->
+        <div class="lang-switcher">
+          <button class="lang-btn" [class.active]="currentLang === 'en'" (click)="setLanguage('en')">ENG</button>
+          <button class="lang-btn" [class.active]="currentLang === 'ta'" (click)="setLanguage('ta')">தமிழ்</button>
+        </div>
+
+        <!-- Quick Call Button -->
+        <button class="btn-call-header" (click)="openCallPopup()">
+          <i class="fa-solid fa-phone"></i> <span>{{ t.nav.callNow }}</span>
+        </button>
+
+        <!-- Mobile Hamburger Toggle -->
+        <button class="mobile-toggle-btn" (click)="toggleMobileMenu()" aria-label="Toggle menu">
+          <i class="fa-solid" [ngClass]="isMobileMenuOpen ? 'fa-xmark' : 'fa-bars'"></i>
+        </button>
       </div>
     </div>
+  </header>
 
-    <div class="connectus section" id="connectus">
-      <div class="address">
-        <p><i class="fa-solid fa-location-dot"></i> No.233, Annasalai, Chengalpattu</p>
-        <p><i class="fa-solid fa-envelope"></i>123ldmlskmd@gmail.com</p>
-        <p> 📞 9585556858, 9143693693, 9566193693</p>
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-drawer-overlay" [class.open]="isMobileMenuOpen" (click)="closeMobileMenu()"></div>
+  <aside class="mobile-drawer" [class.open]="isMobileMenuOpen">
+    <div class="drawer-header">
+      <div class="brand-container">
+        <div class="brand-logo">
+          <i class="fa-solid fa-laptop-code"></i>
+        </div>
+        <span class="brand-title">{{ t.nav.title }}</span>
       </div>
-
-      <button class="call" (click)="showCallPopup()">
-        <i class="fa-solid fa-phone-volume"></i>
+      <button class="drawer-close-btn" (click)="closeMobileMenu()">
+        <i class="fa-solid fa-xmark"></i>
       </button>
-      <button class="whatapp" (click)="openWhatsApp()">
+    </div>
+
+    <!-- Theme & Language Switchers in Mobile Drawer -->
+    <div class="drawer-controls-box">
+      <div class="drawer-control-row">
+        <span class="control-label">Theme / தீம்:</span>
+        <button class="theme-toggle-btn-drawer" (click)="toggleTheme()">
+          <i class="fa-solid" [ngClass]="isDarkTheme ? 'fa-sun text-gold' : 'fa-moon'"></i>
+          <span>{{ isDarkTheme ? 'Light Mode ☀️' : 'Dark Mode 🌙' }}</span>
+        </button>
+      </div>
+
+      <div class="drawer-control-row mt-2">
+        <span class="control-label">Language / மொழி:</span>
+        <div class="lang-buttons">
+          <button class="lang-btn" [class.active]="currentLang === 'en'" (click)="setLanguage('en')">English</button>
+          <button class="lang-btn" [class.active]="currentLang === 'ta'" (click)="setLanguage('ta')">தமிழ்</button>
+        </div>
+      </div>
+    </div>
+
+    <nav class="drawer-nav">
+      <a class="drawer-link" (click)="scrollToSection('home')">
+        <i class="fa-solid fa-house"></i> {{ t.nav.home }}
+      </a>
+      <a class="drawer-link" (click)="scrollToSection('services')">
+        <i class="fa-solid fa-list-check"></i> {{ t.nav.services }}
+      </a>
+      <a class="drawer-link" (click)="scrollToSection('about')">
+        <i class="fa-solid fa-circle-info"></i> {{ t.nav.about }}
+      </a>
+      <a class="drawer-link" (click)="scrollToSection('hours')">
+        <i class="fa-solid fa-clock"></i> {{ t.nav.hours }}
+      </a>
+      <a class="drawer-link" (click)="scrollToSection('contact')">
+        <i class="fa-solid fa-location-dot"></i> {{ t.nav.contact }}
+      </a>
+    </nav>
+
+    <div class="drawer-actions">
+      <button class="btn-primary w-full" (click)="inquireServiceOnWhatsApp()">
+        <i class="fa-brands fa-whatsapp"></i> {{ t.hero.whatsappBtn }}
+      </button>
+      <button class="btn-secondary w-full" (click)="openCallPopup()">
+        <i class="fa-solid fa-phone"></i> {{ t.hero.callBtn }}
+      </button>
+    </div>
+  </aside>
+
+  <!-- ================= HERO SECTION ================= -->
+  <section class="hero-section" id="home">
+    <div class="hero-bg-overlay"></div>
+    <div class="hero-content">
+      <div class="badge-pill mb-4">
+        <i class="fa-solid fa-shield-halved"></i> {{ t.hero.badge }}
+      </div>
+      <h1 class="hero-title text-gradient">{{ t.hero.title }}</h1>
+      <p class="hero-subtitle">{{ t.hero.subtitle }}</p>
+
+      <!-- Stats Bar -->
+      <div class="hero-stats-grid">
+        <div class="stat-card">
+          <i class="fa-solid fa-award"></i>
+          <span>{{ t.hero.stat1 }}</span>
+        </div>
+        <div class="stat-card">
+          <i class="fa-solid fa-users"></i>
+          <span>{{ t.hero.stat2 }}</span>
+        </div>
+        <div class="stat-card">
+          <i class="fa-solid fa-check-double"></i>
+          <span>{{ t.hero.stat3 }}</span>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="hero-cta-buttons">
+        <button class="btn-primary" (click)="scrollToSection('services')">
+          {{ t.hero.exploreBtn }}
+        </button>
+        <button class="btn-whatsapp" (click)="inquireServiceOnWhatsApp()">
+          <i class="fa-brands fa-whatsapp"></i> {{ t.hero.whatsappBtn }}
+        </button>
+        <button class="btn-secondary" (click)="openCallPopup()">
+          <i class="fa-solid fa-phone"></i> {{ t.hero.callBtn }}
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FEATURES BAR ================= -->
+  <section class="features-section">
+    <div class="features-grid">
+      <div class="feature-card glass-panel">
+        <div class="feature-icon cyan">
+          <i class="fa-solid fa-bolt"></i>
+        </div>
+        <h3>{{ t.features.f1Title }}</h3>
+        <p>{{ t.features.f1Desc }}</p>
+      </div>
+
+      <div class="feature-card glass-panel">
+        <div class="feature-icon emerald">
+          <i class="fa-solid fa-building-columns"></i>
+        </div>
+        <h3>{{ t.features.f2Title }}</h3>
+        <p>{{ t.features.f2Desc }}</p>
+      </div>
+
+      <div class="feature-card glass-panel">
+        <div class="feature-icon gold">
+          <i class="fa-solid fa-print"></i>
+        </div>
+        <h3>{{ t.features.f3Title }}</h3>
+        <p>{{ t.features.f3Desc }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SERVICES SECTION ================= -->
+  <section class="section-container" id="services">
+    <div class="section-header text-center">
+      <span class="badge-pill mb-2"><i class="fa-solid fa-gears"></i> {{ t.services.badge }}</span>
+      <h2 class="section-title">{{ t.services.heading }}</h2>
+      <p class="section-subtitle">{{ t.services.subheading }}</p>
+    </div>
+
+    <div class="services-grid">
+      
+      <!-- Category 1: Govt Proof -->
+      <div class="service-category-card glass-panel">
+        <div class="card-header" (click)="openSubServiceCategory('aadhar')">
+          <div class="category-icon text-cyan">
+            <i class="fa-solid fa-id-card"></i>
+          </div>
+          <h3>{{ t.services.catAadhar }}</h3>
+        </div>
+        <ul class="preview-service-list">
+          <li *ngFor="let item of t.serviceItems.aadhar.slice(0, 5)" (click)="inquireServiceOnWhatsApp(item)" title="Click to chat on WhatsApp">
+            <i class="fa-solid fa-circle-check"></i>
+            <span class="service-name-text">{{ item }}</span>
+            <i class="fa-brands fa-whatsapp wa-mini-icon"></i>
+          </li>
+        </ul>
+        <button class="btn-card-action" (click)="openSubServiceCategory('aadhar')">
+          <span>View All Services (14)</span> <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+
+      <!-- Category 2: Online Forms -->
+      <div class="service-category-card glass-panel">
+        <div class="card-header" (click)="openSubServiceCategory('online')">
+          <div class="category-icon text-emerald">
+            <i class="fa-solid fa-laptop-code"></i>
+          </div>
+          <h3>{{ t.services.catOnline }}</h3>
+        </div>
+        <ul class="preview-service-list">
+          <li *ngFor="let item of t.serviceItems.online.slice(0, 5)" (click)="inquireServiceOnWhatsApp(item)" title="Click to chat on WhatsApp">
+            <i class="fa-solid fa-circle-check"></i>
+            <span class="service-name-text">{{ item }}</span>
+            <i class="fa-brands fa-whatsapp wa-mini-icon"></i>
+          </li>
+        </ul>
+        <button class="btn-card-action" (click)="openSubServiceCategory('online')">
+          <span>View All Services (15)</span> <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+
+      <!-- Category 3: Land & Revenue -->
+      <div class="service-category-card glass-panel">
+        <div class="card-header" (click)="openSubServiceCategory('land')">
+          <div class="category-icon text-gold">
+            <i class="fa-solid fa-file-contract"></i>
+          </div>
+          <h3>{{ t.services.catLand }}</h3>
+        </div>
+        <ul class="preview-service-list">
+          <li *ngFor="let item of t.serviceItems.land.slice(0, 5)" (click)="inquireServiceOnWhatsApp(item)" title="Click to chat on WhatsApp">
+            <i class="fa-solid fa-circle-check"></i>
+            <span class="service-name-text">{{ item }}</span>
+            <i class="fa-brands fa-whatsapp wa-mini-icon"></i>
+          </li>
+        </ul>
+        <button class="btn-card-action" (click)="openSubServiceCategory('land')">
+          <span>View All Services (7)</span> <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+
+      <!-- Category 4: Printing & Express -->
+      <div class="service-category-card glass-panel">
+        <div class="card-header" (click)="openSubServiceCategory('print')">
+          <div class="category-icon text-purple">
+            <i class="fa-solid fa-print"></i>
+          </div>
+          <h3>{{ t.services.catPrint }}</h3>
+        </div>
+        <ul class="preview-service-list">
+          <li *ngFor="let item of t.serviceItems.print.slice(0, 5)" (click)="inquireServiceOnWhatsApp(item)" title="Click to chat on WhatsApp">
+            <i class="fa-solid fa-circle-check"></i>
+            <span class="service-name-text">{{ item }}</span>
+            <i class="fa-brands fa-whatsapp wa-mini-icon"></i>
+          </li>
+        </ul>
+        <button class="btn-card-action" (click)="openSubServiceCategory('print')">
+          <span>View All Services (7)</span> <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= SUB-SERVICE POPUP MODAL ================= -->
+  <div class="modal-backdrop" *ngIf="isSubServiceOpen" (click)="closeSubServicePopup()"></div>
+  <div class="modal-window" *ngIf="isSubServiceOpen">
+    <div class="modal-header">
+      <div class="modal-title-group">
+        <span class="modal-badge">{{ t.services.subServiceModalTitle }}</span>
+        <h3>{{ selectedCategoryTitle }}</h3>
+      </div>
+      <button class="modal-close-btn" (click)="closeSubServicePopup()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <ul class="full-subservice-list">
+        <li *ngFor="let subItem of selectedSubServices" (click)="inquireServiceOnWhatsApp(subItem)">
+          <div class="subservice-info">
+            <i class="fa-solid fa-circle-check check-icon"></i>
+            <span>{{ subItem }}</span>
+          </div>
+          <button class="btn-inquire-whatsapp" (click)="$event.stopPropagation(); inquireServiceOnWhatsApp(subItem)">
+            <i class="fa-brands fa-whatsapp"></i> {{ t.services.inquireWhatsApp }}
+          </button>
+        </li>
+      </ul>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" (click)="closeSubServicePopup()">
+        {{ t.services.closeModal }}
+      </button>
+    </div>
+  </div>
+
+  <!-- ================= ABOUT US SECTION ================= -->
+  <section class="section-container" id="about">
+    <div class="about-card glass-panel">
+      <div class="about-grid">
+        <div class="about-content">
+          <span class="badge-pill mb-2"><i class="fa-solid fa-user-gear"></i> {{ t.about.badge }}</span>
+          <h2 class="section-title text-gradient">{{ t.about.heading }}</h2>
+          <p class="about-p">{{ t.about.desc1 }}</p>
+          <p class="about-p">{{ t.about.desc2 }}</p>
+
+          <div class="about-points-grid">
+            <div class="point-item" *ngFor="let pt of t.about.points">
+              <i class="fa-solid fa-circle-check text-cyan"></i>
+              <span>{{ pt }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-visual">
+          <div class="visual-card-frame">
+            <div class="visual-header">
+              <i class="fa-solid fa-shield-halved text-cyan"></i>
+              <span>Karthick Net Center</span>
+            </div>
+            <div class="visual-body">
+              <div class="v-badge"><i class="fa-solid fa-circle-nodes"></i> Govt e-Sevai Portal</div>
+              <div class="v-badge"><i class="fa-solid fa-stamp"></i> Registered e-Sevai Agency</div>
+              <div class="v-badge"><i class="fa-solid fa-lock"></i> 100% Encrypted & Safe</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= WORKING HOURS SECTION ================= -->
+  <section class="section-container" id="hours">
+    <div class="section-header text-center">
+      <span class="badge-pill mb-2"><i class="fa-solid fa-clock"></i> {{ t.hours.badge }}</span>
+      <h2 class="section-title">{{ t.hours.heading }}</h2>
+    </div>
+
+    <div class="hours-card-container">
+      <div class="hours-card glass-panel text-center">
+        <div class="status-indicator">
+          {{ t.hours.statusOpen }}
+        </div>
+
+        <div class="timings-grid">
+          <div class="timing-box">
+            <i class="fa-solid fa-calendar-days text-cyan"></i>
+            <h4>{{ t.hours.weekdays }}</h4>
+            <p class="time-range">{{ t.hours.weekdayTime }}</p>
+          </div>
+          <div class="timing-divider"></div>
+          <div class="timing-box">
+            <i class="fa-solid fa-sun text-gold"></i>
+            <h4>{{ t.hours.sunday }}</h4>
+            <p class="time-range">{{ t.hours.sundayTime }}</p>
+          </div>
+        </div>
+
+        <p class="hours-notice"><i class="fa-solid fa-circle-info"></i> {{ t.hours.statusNotice }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT & INTERACTIVE TAGS SECTION ================= -->
+  <section class="section-container" id="contact">
+    <div class="section-header text-center">
+      <span class="badge-pill mb-2"><i class="fa-solid fa-headset"></i> {{ t.contact.badge }}</span>
+      <h2 class="section-title">{{ t.contact.heading }}</h2>
+    </div>
+
+    <!-- Interactive Social & Contact Tags Bar -->
+    <div class="social-tags-bar mb-6">
+      <a class="tag-pill tag-whatsapp" (click)="inquireServiceOnWhatsApp()" title="Chat on WhatsApp">
         <i class="fa-brands fa-whatsapp"></i>
-      </button>
+        <span>{{ t.contact.whatsappTag }}</span>
+      </a>
 
-      <div id="call-popup" class="call-popup">
-        <h3>Contact Us</h3>
-        <p>Name: John Doe</p>
-        <a href="tel:+919876543210">+91 9876543210</a>
-        <br />
-        <button (click)="closeCallPopup()">Close</button>
+      <a class="tag-pill tag-instagram" (click)="openInstagram()" title="Visit Instagram Page">
+        <i class="fa-brands fa-instagram"></i>
+        <span>{{ t.contact.instaTag }}</span>
+      </a>
+
+      <a class="tag-pill tag-phone" (click)="openCallPopup()" title="Call Now">
+        <i class="fa-solid fa-phone"></i>
+        <span>{{ t.contact.phoneTag }}</span>
+      </a>
+
+      <a class="tag-pill tag-maps" (click)="openGoogleMaps()" title="Open Directions">
+        <i class="fa-solid fa-map-location-dot"></i>
+        <span>Google Maps</span>
+      </a>
+    </div>
+
+    <!-- Contact Cards Grid -->
+    <div class="contact-grid">
+      <!-- Address Card -->
+      <div class="contact-card glass-panel">
+        <div class="contact-icon text-cyan">
+          <i class="fa-solid fa-location-dot"></i>
+        </div>
+        <h3>{{ t.contact.addressTitle }}</h3>
+        <p>{{ t.contact.addressText }}</p>
+        <button class="btn-secondary btn-sm mt-3" (click)="openGoogleMaps()">
+          {{ t.contact.mapBtn }}
+        </button>
+      </div>
+
+      <!-- Phone Card -->
+      <div class="contact-card glass-panel">
+        <div class="contact-icon text-emerald">
+          <i class="fa-solid fa-phone-volume"></i>
+        </div>
+        <h3>{{ t.contact.phoneTitle }}</h3>
+        <div class="phone-numbers-list">
+          <div class="phone-item">
+            <a href="tel:+919585556858" class="phone-link">+91 95855 56858</a>
+            <button class="copy-btn" (click)="copyToClipboard('+919585556858')" title="Copy Phone Number">
+              <i class="fa-regular fa-copy"></i>
+            </button>
+          </div>
+          <div class="phone-item">
+            <a href="tel:+919143693693" class="phone-link">+91 91436 93693</a>
+            <button class="copy-btn" (click)="copyToClipboard('+919143693693')" title="Copy Phone Number">
+              <i class="fa-regular fa-copy"></i>
+            </button>
+          </div>
+          <div class="phone-item">
+            <a href="tel:+919566193693" class="phone-link">+91 95661 93693</a>
+            <button class="copy-btn" (click)="copyToClipboard('+919566193693')" title="Copy Phone Number">
+              <i class="fa-regular fa-copy"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Email & Digital Card -->
+      <div class="contact-card glass-panel">
+        <div class="contact-icon text-gold">
+          <i class="fa-solid fa-envelope"></i>
+        </div>
+        <h3>{{ t.contact.emailTitle }}</h3>
+        <p class="email-text">karthicknetcenter@gmail.com</p>
+        <button class="btn-secondary btn-sm mt-3" (click)="copyToClipboard('karthicknetcenter@gmail.com')">
+          <i class="fa-regular fa-copy"></i> Copy Email
+        </button>
       </div>
     </div>
+  </section>
+
+  <!-- ================= DIRECT CALL POPUP MODAL ================= -->
+  <div class="modal-backdrop" *ngIf="isCallPopupOpen" (click)="closeCallPopup()"></div>
+  <div class="call-popup-window" *ngIf="isCallPopupOpen">
+    <button class="modal-close-btn float-right" (click)="closeCallPopup()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <div class="call-popup-icon">
+      <i class="fa-solid fa-phone-volume"></i>
+    </div>
+    <h3>{{ t.contact.callModalTitle }}</h3>
+    <p class="subtitle">{{ t.contact.callModalSubtitle }}</p>
+
+    <div class="call-numbers-group">
+      <a href="tel:+919585556858" class="call-num-btn">
+        <i class="fa-solid fa-phone"></i> +91 95855 56858
+      </a>
+      <a href="tel:+919143693693" class="call-num-btn">
+        <i class="fa-solid fa-phone"></i> +91 91436 93693
+      </a>
+      <a href="tel:+919566193693" class="call-num-btn">
+        <i class="fa-solid fa-phone"></i> +91 95661 93693
+      </a>
+    </div>
+
+    <button class="btn-secondary w-full mt-4" (click)="closeCallPopup()">
+      {{ t.services.closeModal }}
+    </button>
   </div>
+
+  <!-- ================= FLOATING ACTION BUTTONS ================= -->
+  <div class="floating-actions">
+    <!-- Ringing Call Floating Button -->
+    <button class="floating-btn float-call" (click)="openCallPopup()" title="Call Karthick Net Center">
+      <i class="fa-solid fa-phone-volume"></i>
+    </button>
+
+    <!-- Pulse WhatsApp Floating Button -->
+    <button class="floating-btn float-whatsapp" (click)="inquireServiceOnWhatsApp()" title="Chat on WhatsApp">
+      <i class="fa-brands fa-whatsapp"></i>
+    </button>
+  </div>
+
+  <!-- ================= TOAST NOTIFICATION ================= -->
+  <div class="toast-notification" [class.show]="showToast">
+    <i class="fa-solid fa-circle-check"></i> <span>{{ toastMessage }}</span>
+  </div>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer-section">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <h3>{{ t.nav.title }}</h3>
+        <p>{{ t.footer.tagline }}</p>
+      </div>
+
+      <div class="footer-links">
+        <a (click)="scrollToSection('home')">{{ t.nav.home }}</a>
+        <a (click)="scrollToSection('services')">{{ t.nav.services }}</a>
+        <a (click)="scrollToSection('about')">{{ t.nav.about }}</a>
+        <a (click)="scrollToSection('contact')">{{ t.nav.contact }}</a>
+      </div>
+
+      <div class="footer-social">
+        <button class="social-btn" (click)="inquireServiceOnWhatsApp()"><i class="fa-brands fa-whatsapp"></i></button>
+        <button class="social-btn" (click)="openInstagram()"><i class="fa-brands fa-instagram"></i></button>
+        <button class="social-btn" (click)="openCallPopup()"><i class="fa-solid fa-phone"></i></button>
+      </div>
+    </div>
+    <div class="footer-bottom text-center">
+      <p>{{ t.footer.rights }}</p>
+    </div>
+  </footer>
+
 </div>
-
-
-
-
-<section class="relative bg-cover bg-center h-screen flex items-center justify-center text-center text-white"
-  style="background-image: url('assets/bg.svg');">
-  <div class="bg-black/50 absolute inset-0"></div>
-  <div class="relative z-10 max-w-3xl px-4">
-    <h1 class="text-4xl md:text-6xl font-bold mb-4">One Stop for All Online & Government Services</h1>
-    <p class="text-lg md:text-xl mb-6">A trusted center for Aadhar, PAN, Voter ID, Exam Applications, Land Documents,
-      and More</p>
-    <div class="space-x-4">
-      <a href="#contact" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold">✅ Book an
-        Appointment</a>
-      <a href="tel:+919876543210"
-        class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold">📞 Call Now</a>
-    </div>
-  </div>
-</section>
-
-<!-- About Us -->
-<section id="about" class="py-16 bg-white">
-  <div class="max-w-5xl mx-auto px-4 text-center">
-    <h2 class="text-3xl font-bold mb-6">👨‍💼 Who We Are</h2>
-    <p class="text-lg leading-relaxed">Welcome to <strong>Think Net Center</strong>, your trusted digital and
-      documentation service provider. We help individuals and businesses with all types of government-related services,
-      online form submissions, and official paperwork. With expert staff and fast service, we make complex processes
-      simple and stress-free.</p>
-  </div>
-</section>
-
-<!-- Services -->
-<section id="services" class="py-16 bg-gray-100">
-  <div class="max-w-6xl mx-auto px-4">
-    <h2 class="text-3xl font-bold text-center mb-10">🛠️ Services We Offer</h2>
-    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-
-      <!-- Government Proof -->
-      <div class="bg-white shadow-lg rounded-xl p-6">
-        <h3 class="font-bold text-lg mb-4">📄 Government Proof Applications</h3>
-        <ul class="space-y-2">
-          <li>✅ Aadhar Card Assistance</li>
-          <li>✅ PAN Card Application</li>
-          <li>✅ Voter ID Registration & Correction</li>
-          <li>✅ Passport Application Help</li>
-        </ul>
-      </div>
-
-      <!-- Online Forms -->
-      <div class="bg-white shadow-lg rounded-xl p-6">
-        <h3 class="font-bold text-lg mb-4">📝 Online Form Filling</h3>
-        <ul class="space-y-2">
-          <li>✅ TNPSC, UPSC, SSC, Bank Exams</li>
-          <li>✅ College Admission Forms</li>
-          <li>✅ Scholarship Applications</li>
-          <li>✅ Driving License Forms</li>
-        </ul>
-      </div>
-
-      <!-- Land & Legal -->
-      <div class="bg-white shadow-lg rounded-xl p-6">
-        <h3 class="font-bold text-lg mb-4">📚 Land & Legal Documentation</h3>
-        <ul class="space-y-2">
-          <li>✅ Patta/Chitta Online Services</li>
-          <li>✅ EC, Land Ownership Transfers</li>
-          <li>✅ Stamp Duty Calculations</li>
-          <li>✅ Document Printing & Scanning</li>
-        </ul>
-      </div>
-
-      <!-- General -->
-      <div class="bg-white shadow-lg rounded-xl p-6">
-        <h3 class="font-bold text-lg mb-4">🖨️ General Services</h3>
-        <ul class="space-y-2">
-          <li>✅ Printing & Xerox (B/W & Color)</li>
-          <li>✅ Scanning & Emailing</li>
-          <li>✅ Lamination & Spiral Binding</li>
-          <li>✅ Resume Creation & Typing Work</li>
-        </ul>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- Why Choose Us -->
-<section class="py-16 bg-white">
-  <div class="max-w-5xl mx-auto px-4 text-center">
-    <h2 class="text-3xl font-bold mb-8">💡 Why People Trust Us</h2>
-    <ul class="grid md:grid-cols-2 gap-6 text-lg">
-      <li>✅ Fast & Accurate Documentation</li>
-      <li>✅ Affordable Service Charges</li>
-      <li>✅ Friendly, Trained Staff</li>
-      <li>✅ Comfortable & Safe Environment</li>
-      <li>✅ Local Language Support (English, Tamil, etc.)</li>
-    </ul>
-  </div>
-</section>
-
-<!-- Testimonials -->
-<section class="py-16 bg-gray-100">
-  <div class="max-w-5xl mx-auto px-4 text-center">
-    <h2 class="text-3xl font-bold mb-8">🌟 Testimonials</h2>
-    <div class="grid md:grid-cols-2 gap-8">
-      <blockquote class="bg-white shadow-md rounded-xl p-6">
-        “I got my PAN and Aadhar updated in 15 minutes. Excellent service!”
-        <span class="block mt-4 font-semibold">– Arun K., Customer</span>
-      </blockquote>
-      <blockquote class="bg-white shadow-md rounded-xl p-6">
-        “Very helpful staff. They filled my TNPSC application correctly and on time.”
-        <span class="block mt-4 font-semibold">– Mohana P., Student</span>
-      </blockquote>
-    </div>
-  </div>
-</section>
-
-<!-- Call to Action -->
-<section id="contact" class="py-16 bg-blue-600 text-white text-center">
-  <h2 class="text-3xl font-bold mb-4">💼 Need Help with Any Document or Online Form?</h2>
-  <p class="mb-6">Visit our center today or call us for a quick consultation.</p>
-  <div class="space-x-4">
-    <a href="#about" class="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold">📅 Schedule a Visit</a>
-    <a href="https://goo.gl/maps/example" class="bg-green-500 px-6 py-3 rounded-lg font-semibold">📍 Get Directions</a>
-    <a href="tel:+919876543210" class="bg-red-500 px-6 py-3 rounded-lg font-semibold">📞 Call Now</a>
-  </div>
-</section>
-
-<!-- Footer -->
-<footer class="bg-gray-900 text-gray-300 py-8">
-  <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-3 gap-8">
-    <div>
-      <h3 class="font-bold text-white text-lg mb-2">📍 Address</h3>
-      <p>Think Net Center<br>123 Main Street, Your City<br>Tamil Nadu, India</p>
-    </div>
-    <div>
-      <h3 class="font-bold text-white text-lg mb-2">📞 Contact</h3>
-      <p>Phone: +91 9876543210</p>
-      <p>Email: info@thinknetcenter.com</p>
-      <p>Hours: Mon-Sat, 9 AM - 7 PM</p>
-    </div>
-    <div>
-      <h3 class="font-bold text-white text-lg mb-2">🌐 Follow Us</h3>
-      <p>Facebook | Instagram | WhatsApp</p>
-    </div>
-  </div>
-  <p class="text-center mt-6 text-sm text-gray-500">© 2025 Think Net Center. All rights reserved.</p>
-</footer>
-
-
-
-
-
-
-<router-outlet />

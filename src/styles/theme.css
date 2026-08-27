@@ -1,0 +1,353 @@
+/* ==========================================================================
+   KARTHICK NET CENTER - DESIGN SYSTEM & THEME
+   File: src/styles/theme.css
+
+   Dark theme palette refined for better cohesion:
+   - Accent hues pulled in slightly (less neon/saturated when all shown together)
+   - Card/surface backgrounds lightened a touch relative to the page background
+     so glass panels read as "raised" instead of blending into a flat black
+   - Body text brightened just enough for comfortable contrast without glare
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Tamil:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap');
+
+/* ==========================================================================
+   DEFAULT LIGHT THEME VARIABLES
+   ========================================================================== */
+:root {
+  /* Brand Palette */
+  --primary-dark: #f8fafc;
+  --primary-navy: #ffffff;
+  --primary-blue: #2563eb;
+  --accent-cyan: #0284c7;
+  --accent-cyan-light: #0369a1;
+  --accent-gold: #d97706;
+  --accent-emerald: #059669;
+  --brand-whatsapp: #25d366;
+  --brand-instagram: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  --brand-phone: #0284c7;
+
+  /* Surface & Glass Backgrounds (LIGHT THEME DEFAULT) */
+  --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+  --glass-nav: rgba(255, 255, 255, 0.95);
+  --glass-card: #ffffff;
+  --glass-card-hover: #ffffff;
+  --glass-modal: #ffffff;
+  --glass-border: rgba(15, 23, 42, 0.1);
+  --glass-border-glow: rgba(2, 132, 199, 0.35);
+
+  /* Text Colors */
+  --text-main: #0f172a;
+  --text-muted: #334155;
+  --text-dark: #020617;
+  --text-highlight: #0284c7;
+
+  /* Typography */
+  --font-heading: 'Outfit', 'Noto Sans Tamil', sans-serif;
+  --font-body: 'Inter', 'Noto Sans Tamil', sans-serif;
+
+  /* Radii & Shadows */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 4px 12px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 10px 25px rgba(15, 23, 42, 0.08);
+  --shadow-glow: 0 10px 30px rgba(2, 132, 199, 0.18);
+  --shadow-whatsapp: 0 6px 20px rgba(37, 211, 102, 0.35);
+  --shadow-phone: 0 6px 20px rgba(2, 132, 199, 0.35);
+
+  /* Transitions */
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* ==========================================================================
+   DARK THEME OVERRIDES (refined palette)
+   ========================================================================== */
+body.dark-theme {
+  --primary-dark: #05070c;
+  --primary-navy: #0d1424;
+  --primary-blue: #3b82f6;
+
+  /* Slightly desaturated / dimmer accents so cyan+gold+emerald+purple
+     don't fight each other when several appear on screen at once */
+  --accent-cyan: #38bdf8;
+  --accent-cyan-light: #7dd3fc;
+  --accent-gold: #f0b429;
+  --accent-emerald: #2dd4a0;
+
+  --bg-gradient: radial-gradient(circle at 20% 20%, rgba(14, 165, 233, 0.10) 0%, transparent 45%), radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.08) 0%, transparent 45%), linear-gradient(135deg, #05070c 0%, #0d1424 50%, #131029 100%);
+  --glass-nav: rgba(9, 13, 22, 0.9);
+
+  /* Cards sit a couple shades lighter than the page background, not
+     near-black, so they read as raised surfaces with real contrast */
+  --glass-card: rgba(24, 33, 52, 0.82);
+  --glass-card-hover: rgba(32, 43, 66, 0.92);
+  --glass-modal: rgba(16, 22, 38, 0.97);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-border-glow: rgba(56, 189, 248, 0.4);
+
+  --text-main: #f1f5f9;
+  --text-muted: #aebbce;
+  --text-dark: #f8fafc;
+  --text-highlight: #38bdf8;
+
+  --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 8px 30px rgba(56, 189, 248, 0.2);
+}
+
+/* Base resets */
+html {
+  scroll-behavior: smooth;
+  font-family: var(--font-body);
+  background-color: var(--primary-dark);
+  color: var(--text-main);
+  transition: background-color var(--transition-normal), color var(--transition-normal);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  background: var(--bg-gradient);
+  min-height: 100vh;
+  color: var(--text-main);
+  transition: background var(--transition-normal), color var(--transition-normal);
+}
+
+body.modal-open {
+  overflow: hidden !important;
+  height: 100vh;
+  touch-action: none;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--primary-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent-cyan);
+  border-radius: var(--radius-full);
+}
+
+/* ==========================================================================
+   THEME ANIMATIONS
+   ========================================================================== */
+@keyframes shimmerText {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes pulseGlow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 15px rgba(2, 132, 199, 0.3);
+    transform: scale(1);
+  }
+
+  50% {
+    box-shadow: 0 0 25px rgba(2, 132, 199, 0.6);
+    transform: scale(1.02);
+  }
+}
+
+@keyframes ringBell {
+
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+
+  15% {
+    transform: rotate(14deg) scale(1.08);
+  }
+
+  30% {
+    transform: rotate(-14deg) scale(1.08);
+  }
+
+  45% {
+    transform: rotate(10deg);
+  }
+
+  60% {
+    transform: rotate(-10deg);
+  }
+
+  75% {
+    transform: rotate(4deg);
+  }
+}
+
+@keyframes pulseRipple {
+  0% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+  }
+
+  70% {
+    box-shadow: 0 0 0 16px rgba(37, 211, 102, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+  }
+}
+
+@keyframes modalZoom {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -45%) scale(0.92);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* ==========================================================================
+   UTILITY CLASSES & GLASSMORPHISM
+   ========================================================================== */
+.glass-panel {
+  background: var(--glass-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  color: var(--text-main);
+  transition: all var(--transition-normal);
+}
+
+body.dark-theme .glass-panel {
+  background: var(--glass-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45);
+  color: var(--text-main);
+}
+
+body.dark-theme .glass-panel:hover {
+  background: var(--glass-card-hover);
+  border-color: rgba(56, 189, 248, 0.35);
+  box-shadow: 0 12px 35px rgba(56, 189, 248, 0.16);
+}
+
+/* Text Gradient Rules */
+.text-gradient {
+  background: linear-gradient(135deg, #0f172a 0%, #0284c7 60%, #1e40af 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+body.dark-theme .text-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, #7dd3fc 55%, #38bdf8 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border-radius: var(--radius-full);
+  font-size: 0.875rem;
+  font-weight: 700;
+  background: rgba(2, 132, 199, 0.12);
+  color: #0284c7;
+  border: 1px solid rgba(2, 132, 199, 0.3);
+}
+
+body.dark-theme .badge-pill {
+  background: rgba(56, 189, 248, 0.14);
+  color: #7dd3fc;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+  color: #ffffff !important;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 10px 22px;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--shadow-glow);
+  transition: all var(--transition-normal);
+  text-decoration: none;
+}
+
+body.dark-theme .btn-primary {
+  background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(2, 132, 199, 0.4);
+  filter: brightness(1.05);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #ffffff;
+  color: #0f172a !important;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 10px 22px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(15, 23, 42, 0.18);
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+  transition: all var(--transition-normal);
+  text-decoration: none;
+}
+
+body.dark-theme .btn-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+body.dark-theme .btn-secondary:hover {
+  background: rgba(56, 189, 248, 0.16);
+  border-color: var(--accent-cyan);
+  transform: translateY(-2px);
+}
+
+.btn-secondary:hover {
+  background: rgba(2, 132, 199, 0.12);
+  border-color: var(--accent-cyan);
+  transform: translateY(-2px);
+}

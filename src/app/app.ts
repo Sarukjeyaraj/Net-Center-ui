@@ -1,192 +1,210 @@
-import { Component, AfterViewInit, OnDestroy } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit, HostListener } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import enTranslations from '../assets/i18n/en.json';
+import taTranslations from '../assets/i18n/ta.json';
+
+export type Language = 'en' | 'ta';
+
+export const TRANSLATIONS: Record<Language, any> = {
+  en: enTranslations,
+  ta: taTranslations
+};
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [CommonModule],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })
-export class App implements AfterViewInit, OnDestroy {
-  protected readonly title = 'netCenter';
+export class App implements OnInit {
+  protected readonly title = 'Karthick Net Center';
 
-  // reuseable service map
-  private readonly serviceData: { [key: string]: string[] } = {
-    aadhar: [
-      "Aadhaar Card Address update",
-      "Aadhaar Card Name Change",
-      "Aadhaar Card DOB Change",
-      "Aadhaar Card Phone Number Update",
-      "Aadhaar Card Photo Update"
-    ],
-    pan: [
-      "New PAN Card Application",
-      "Minor PAN Card Application",
-      "PAN Card Correction",
-      "Link PAN with Aadhaar",
-      "Phone No and Email Address Update"
-    ],
-    voter: [
-      "New Voter ID Application",
-      "Voter ID Correction (Name, DOB, Father’s Name)",
-      "Voter ID Address Change",
-      "Voter ID Mobile Number & Email ID Update",
-      "Voter ID Download / Lamination",
-      "Voter ID Name Removal"
-    ],
-    passport: [
-      "New Passport Application",
-      "Passport Renewal",
-      "Passport Correction",
-      "Any other Passport related Services"
-    ],
-    license: [
-      "New Driving License",
-      "Renewal of Driving License",
-      "Duplicate Driving License",
-      "Address Change in Driving License"
-    ],
-    TNEGA: [
-      "Community Certificate",
-      "Nativity Certificate",
-      "Income Certificate",
-      "OBC Certificate",
-      "PSTM Application",
-      "First Graduate Certificate",
-      "Unmarried Certificate",
-      "Inter-Caste Marriage Certificates",
-      "Residence Certificate",
-      "Legal Heir Certificate",
-      "Small / Marginal Farmer",
-      "Widow Certificate"
-    ],
-    ExamApplication: [
-      "TNPSC (Tamil Nadu Public Service Commission)",
-      "IBPS Bank Exams (PO, Clerk, SO)",
-      "SBI Bank Exams (PO, Clerk)",
-      "UPSC Civil Services Exam",
-      "SSC CGL (Staff Selection Commission) Exam",
-      "Police Department Exams",
-      "Defence Exams (NDA, CDS)",
-      "Teaching Exams (CTET, TET)",
-      "Other Exams"
-    ],
-    college: [
-      "TNEA (engineering admissions)",
-      "TNGASA (arts and science colleges)"
-    ],
-    scholar: ["Scholarship Applications"],
-    pf: [
-      "Full Claim Forms (31, 19, 10C & 13)",
-      "Claim Advance Cash",
-      "UAN Activation",
-      "Password Change for PF",
-      "Balance Check",
-      "Merge PF Accounts",
-      "Add Bank Details, PAN",
-      "E-Nomination",
-      "Name Correction",
-      "Mobile Number Change"
-    ],
-    patta: ["Patta / Chitta Online Services"],
-    ec: ["EC, Land Ownership Transfers"],
-    stamp: ["Stamp Duty Calculations"],
-    document: ["Document Printing & Scanning"],
-    print: ["Printing & Xerox"],
-    scanning: ["Scanning & Emailing"],
-    lamination: ["Lamination & Spiral Binding"],
-    typing: ["Typing Work"]
-  };
+  // Active Language State
+  currentLang: Language = 'en';
 
-  // store cleanup callbacks
-  private _cleanups: Array<() => void> = [];
+  // Theme Mode State (Default Light Theme as requested)
+  isDarkTheme = false;
+  
+  // Mobile Menu State
+  isMobileMenuOpen = false;
 
-  ngAfterViewInit(): void {
-    /* ---------------- Navbar logic ---------------- */
-    const navItems: NodeListOf<HTMLElement> = document.querySelectorAll(".head");
-    const sections: NodeListOf<HTMLElement> = document.querySelectorAll(".section");
+  // Active Section for Navbar Highlight
+  activeSection = 'home';
 
-    navItems.forEach((item: HTMLElement) => {
-      const navClick = () => {
-        const targetId: string | null = item.getAttribute("data-target");
-        if (targetId) {
-          document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      };
-      item.addEventListener("click", navClick);
-      this._cleanups.push(() => item.removeEventListener("click", navClick));
-    });
+  // Sub-Service Popup State
+  isSubServiceOpen = false;
+  selectedCategoryTitle = '';
+  selectedSubServices: string[] = [];
 
-    const observer = new IntersectionObserver(
-      (entries: IntersectionObserverEntry[]) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            navItems.forEach((nav) => nav.classList.remove("active"));
-            sections.forEach((sec) => sec.classList.remove("active"));
-            (entry.target as HTMLElement).classList.add("active");
-            const sectionId = (entry.target as HTMLElement).id;
-            document.querySelector(`.head[data-target="${sectionId}"]`)?.classList.add("active");
-          }
-        });
-      },
-      { root: null, threshold: 0, rootMargin: "-50% 0px -50% 0px" }
-    );
+  // Call Popup State
+  isCallPopupOpen = false;
 
-    sections.forEach((section: HTMLElement) => observer.observe(section));
-    this._cleanups.push(() => observer.disconnect());
+  // Toast Notification State
+  toastMessage = '';
+  showToast = false;
 
-    /* ---------------- Sub-service popup logic ---------------- */
-    const serviceItems = document.querySelectorAll('.serviceList li');
-    serviceItems.forEach(item => {
-      const clickHandler = () => {
-        const service = item.getAttribute('data-service') as string;
-        this.openSubServicePopup(service);
-      };
-      item.addEventListener('click', clickHandler);
-      this._cleanups.push(() => item.removeEventListener('click', clickHandler));
-    });
-
-    document.getElementById('subServiceClose')?.addEventListener('click', this.closePopup);
-    document.getElementById('overlay')?.addEventListener('click', this.closePopup);
+  get t(): any {
+    return TRANSLATIONS[this.currentLang];
   }
 
-  openSubServicePopup(service: string) {
-    const subServiceBox = document.getElementById('subServiceBox')!;
-    const overlay = document.getElementById('overlay')!;
-    const list = document.getElementById('subServiceList')!;
+  ngOnInit(): void {
+    // 1. Language Preference
+    const savedLang = localStorage.getItem('knc_lang') as Language;
+    if (savedLang === 'en' || savedLang === 'ta') {
+      this.currentLang = savedLang;
+    }
 
-    list.innerHTML = '';
-    this.serviceData[service]?.forEach(sub => {
-      const li = document.createElement('li');
-      li.textContent = sub;
-      list.appendChild(li);
-    });
-
-    subServiceBox.style.display = 'block';
-    overlay.style.display = 'block';
+    // 2. Theme Preference (Default Light)
+    const savedTheme = localStorage.getItem('knc_theme');
+    if (savedTheme === 'dark') {
+      this.isDarkTheme = true;
+      document.body.classList.add('dark-theme');
+    } else {
+      this.isDarkTheme = false;
+      document.body.classList.remove('dark-theme');
+    }
   }
 
-  closePopup() {
-    document.getElementById('subServiceBox')!.style.display = 'none';
-    document.getElementById('overlay')!.style.display = 'none';
-  } 
-  /** WhatsApp / Call functions */
+  // Toggle Light / Dark Theme Mode
+  toggleTheme(): void {
+    this.isDarkTheme = !this.isDarkTheme;
+    if (this.isDarkTheme) {
+      document.body.classList.add('dark-theme');
+      localStorage.setItem('knc_theme', 'dark');
+      this.showToastNotification(this.currentLang === 'ta' ? 'இருள் தீம் தேர்வானது 🌙' : 'Dark Theme Enabled 🌙');
+    } else {
+      document.body.classList.remove('dark-theme');
+      localStorage.setItem('knc_theme', 'light');
+      this.showToastNotification(this.currentLang === 'ta' ? 'வெளிச்ச தீம் தேர்வானது ☀️' : 'Light Theme Enabled ☀️');
+    }
+  }
+
+  // Switch Language
+  setLanguage(lang: Language): void {
+    this.currentLang = lang;
+    localStorage.setItem('knc_lang', lang);
+    this.showToastNotification(lang === 'ta' ? 'தமிழ் மொழி தேர்வு செய்யப்பட்டது' : 'English language selected');
+  }
+
+  // Toggle Mobile Navigation Menu
+  toggleMobileMenu(): void {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
+
+  closeMobileMenu(): void {
+    this.isMobileMenuOpen = false;
+  }
+
+  // Smooth Scroll to Section
+  scrollToSection(sectionId: string): void {
+    this.activeSection = sectionId;
+    this.closeMobileMenu();
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  // Open Sub-Services Modal for Category
+  openSubServiceCategory(catKey: string): void {
+    const categories: Record<string, string> = {
+      aadhar: this.t.services.catAadhar,
+      online: this.t.services.catOnline,
+      land: this.t.services.catLand,
+      print: this.t.services.catPrint
+    };
+
+    this.selectedCategoryTitle = categories[catKey] || 'Service Details';
+    this.selectedSubServices = this.t.serviceItems[catKey] || [];
+    this.isSubServiceOpen = true;
+    document.body.classList.add('modal-open');
+  }
+
+  closeSubServicePopup(): void {
+    this.isSubServiceOpen = false;
+    this.checkBodyModalLock();
+  }
+
+  // Open / Close Call Popup
+  openCallPopup(): void {
+    this.isCallPopupOpen = true;
+    document.body.classList.add('modal-open');
+  }
+
+  closeCallPopup(): void {
+    this.isCallPopupOpen = false;
+    this.checkBodyModalLock();
+  }
+
+  private checkBodyModalLock(): void {
+    if (!this.isSubServiceOpen && !this.isCallPopupOpen) {
+      document.body.classList.remove('modal-open');
+    }
+  }
+
+  // WhatsApp API Service Inquiry Integration
+  inquireServiceOnWhatsApp(serviceName?: string): void {
+    const phoneNumber = "919585556858";
+    let message = "Hello Karthick Net Center! I would like to inquire about your services.";
+    if (serviceName) {
+      message = `Hello Karthick Net Center! I am interested in applying for:\n📌 *${serviceName}*\n\nPlease send me the required documents list, fee details, and estimated processing time. Thank you!`;
+    }
+    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank');
+  }
+
   openWhatsApp(): void {
-    const phoneNumber = "9715561331";
-    const message = "Hello";
-    window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, "_blank");
+    this.inquireServiceOnWhatsApp();
   }
 
-  showCallPopup() {
-    document.getElementById("call-popup")!.style.display = "block";
+  openInstagram(): void {
+    const instagramUrl = "https://instagram.com/karthick_net_center";
+    window.open(instagramUrl, '_blank');
   }
 
-  closeCallPopup() {
-    document.getElementById("call-popup")!.style.display = "none";
+  makePhoneCall(phoneNum: string = "9585556858"): void {
+    window.location.href = `tel:+91${phoneNum}`;
   }
 
-  ngOnDestroy(): void {
-    this._cleanups.forEach(cleanup => cleanup());
+  openGoogleMaps(): void {
+    const address = "Karthick Net Center Anna Salai Chengalpattu";
+    const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+    window.open(mapUrl, '_blank');
+  }
+
+  // Copy text helper
+  copyToClipboard(text: string): void {
+    navigator.clipboard.writeText(text).then(() => {
+      this.showToastNotification(this.t.contact.copySuccess || 'Copied to clipboard!');
+    });
+  }
+
+  private showToastNotification(msg: string): void {
+    this.toastMessage = msg;
+    this.showToast = true;
+    setTimeout(() => {
+      this.showToast = false;
+    }, 2500);
+  }
+
+  // Listen to scroll events to update active section link in navbar
+  @HostListener('window:scroll', [])
+  onWindowScroll(): void {
+    const sections = ['home', 'services', 'about', 'hours', 'contact'];
+    const scrollPos = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+
+    for (const section of sections) {
+      const el = document.getElementById(section);
+      if (el) {
+        const top = el.offsetTop - 100;
+        const height = el.offsetHeight;
+        if (scrollPos >= top && scrollPos < top + height) {
+          this.activeSection = section;
+          break;
+        }
+      }
+    }
   }
 }

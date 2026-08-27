@@ -1,0 +1,138 @@
+{
+  "nav": {
+    "title": "Karthick Net Center",
+    "subtitle": "Digital & e-Sevai Hub",
+    "home": "Home",
+    "services": "Services",
+    "about": "About Us",
+    "hours": "Working Hours",
+    "contact": "Contact Us",
+    "callNow": "Call Now"
+  },
+  "hero": {
+    "badge": "✨ Authorized Govt e-Sevai & Digital Hub",
+    "title": "Karthick Net Center",
+    "subtitle": "Fast, trusted & hassle-free assistance for Aadhaar, PAN Card, Voter ID, Patta/Chitta, Exam Applications, Passport, PF & High-Speed Printing.",
+    "exploreBtn": "🖥️ Explore Services",
+    "whatsappBtn": "Chat on WhatsApp",
+    "callBtn": "Direct Call",
+    "stat1": "10+ Years Experience",
+    "stat2": "50,000+ Happy Clients",
+    "stat3": "100% Reliable Service"
+  },
+  "features": {
+    "f1Title": "Fast & Accurate",
+    "f1Desc": "Instant processing with high accuracy for all e-Sevai and online portals.",
+    "f2Title": "Govt e-Sevai Partner",
+    "f2Desc": "Official assistance for TNEGA, Land Records, TNPSC, & EPFO.",
+    "f3Title": "Express Print & Scan",
+    "f3Desc": "High quality color xerox, document scanning, passport photos, & lamination."
+  },
+  "services": {
+    "badge": "Solutions We Provide",
+    "heading": "🖥️ Our Comprehensive Services",
+    "subheading": "Click on any service card or item to view full details and apply online.",
+    "closeModal": "Close",
+    "subServiceModalTitle": "Available Sub-Services",
+    "inquireWhatsApp": "Inquire on WhatsApp",
+    "catAadhar": "Government Proof & ID Cards",
+    "catOnline": "Online Forms & Exam Applications",
+    "catLand": "Land & Revenue Documentation",
+    "catPrint": "Printing, Xerox & Digital Express"
+  },
+  "serviceItems": {
+    "aadhar": [
+      "Aadhaar Card Address Update",
+      "Aadhaar Card Name & DOB Correction",
+      "Aadhaar Card Mobile Number Link",
+      "Aadhaar Photo & Biometric Update",
+      "Aadhaar PVC Card Printing",
+      "New PAN Card Application (Instant 2 Hours)",
+      "Minor PAN Card Application",
+      "PAN Card Name & DOB Correction",
+      "Link PAN Card with Aadhaar",
+      "New Voter ID Application",
+      "Voter ID Correction & Address Change",
+      "Voter ID Download & Plastic Lamination",
+      "New Passport Application & Renewal",
+      "New Driving License & LLR Application"
+    ],
+    "online": [
+      "Community Certificate Application (TNEGA)",
+      "Income Certificate Application",
+      "Nativity & Residence Certificate",
+      "First Graduate Certificate",
+      "OBC & EWS Certificates",
+      "Legal Heir Certificate Application",
+      "Widow & Unmarried Certificate",
+      "TNPSC Exams (Group 1, 2, 4, VAO)",
+      "IBPS & SBI Bank Exams (PO, Clerk)",
+      "UPSC Civil Services & SSC CGL",
+      "Police & Defence Recruitment Exams",
+      "TNEA Engineering & TNGASA College Admissions",
+      "School & College Scholarship Applications",
+      "PF Withdrawal Claim Forms (31, 19, 10C, 13)",
+      "UAN Activation & Password Reset"
+    ],
+    "land": [
+      "Patta / Chitta Online Download",
+      "Encumbrance Certificate (EC) Verification",
+      "Land Ownership Transfer Assistance",
+      "Guideline Value Calculation",
+      "Stamp Duty & Registration Calculator",
+      "Document Legal Copy Printing & Scanning",
+      "Property Tax & Water Tax Online Payment"
+    ],
+    "print": [
+      "High Speed B/W & Color Xerox",
+      "High Resolution Document Scanning to Email/WhatsApp",
+      "Heavy Duty Lamination & Spiral Binding",
+      "Passport Size Photo Printing (Instant 5 Mins)",
+      "Professional Resume & Bio-Data Creation",
+      "Tamil & English Typing Work",
+      "Online DTP & Formatting Work"
+    ]
+  },
+  "about": {
+    "badge": "Who We Are",
+    "heading": "👨‍💼 About Karthick Net Center",
+    "desc1": "Welcome to Karthick Net Center, your premier digital and documentation service provider in Chengalpattu. We specialize in providing reliable government documentation, online form filling, exam registrations, and instant printing solutions.",
+    "desc2": "With over a decade of domain expertise, our trained team ensures 100% accuracy, minimal turnaround time, and friendly customer support for senior citizens, students, and professionals.",
+    "points": [
+      "Certified & Friendly Support Staff",
+      "Instant Token & Transparent Charges",
+      "Comfortable Air-Conditioned Waiting Lounge",
+      "Data Confidentiality & 100% Secure Process"
+    ]
+  },
+  "hours": {
+    "badge": "Operating Hours",
+    "heading": "⏰ Center Timings",
+    "weekdays": "Monday - Saturday",
+    "weekdayTime": "8:30 AM - 9:00 PM",
+    "sunday": "Sunday",
+    "sundayTime": "9:00 AM - 2:30 PM",
+    "statusOpen": "🟢 Currently Open Now",
+    "statusNotice": "Walk-ins & Phone Consultation Welcome"
+  },
+  "contact": {
+    "badge": "Get In Touch",
+    "heading": "📍 Contact & Location",
+    "addressTitle": "Center Address",
+    "addressText": "No. 233, Anna Salai, Opp. Old Bus Stand, Chengalpattu, Tamil Nadu - 603001",
+    "phoneTitle": "Phone Numbers",
+    "emailTitle": "Email Address",
+    "socialTitle": "Connect via Social & Messaging",
+    "mapBtn": "🗺️ Open Google Maps",
+    "callModalTitle": "Call Karthick Net Center",
+    "callModalSubtitle": "Tap any phone number below to initiate a direct call:",
+    "whatsappTag": "WhatsApp Chat",
+    "instaTag": "Instagram Page",
+    "phoneTag": "Call Center",
+    "copySuccess": "Copied to clipboard!"
+  },
+  "footer": {
+    "rights": "© 2026 Karthick Net Center. All rights reserved.",
+    "tagline": "Empowering Citizens with Seamless Digital Services."
+  }
+}
