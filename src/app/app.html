@@ -1,5 +1,5 @@
 <div class="site-container">
-  
+
   <!-- ================= NAVBAR ================= -->
   <header class="navbar-header">
     <div class="navbar-content">
@@ -36,16 +36,21 @@
       <!-- Nav Controls: Theme Toggle + Language Switcher + Call CTA -->
       <div class="nav-actions">
         <!-- Theme Switcher Toggle Button (☀️ / 🌙) -->
-        <button class="theme-toggle-btn" (click)="toggleTheme()" [title]="isDarkTheme ? 'Switch to Light Theme' : 'Switch to Dark Theme'">
+        <button class="theme-toggle-btn" (click)="toggleTheme()"
+          [title]="isDarkTheme ? 'Switch to Light Theme' : 'Switch to Dark Theme'">
           <i class="fa-solid" [ngClass]="isDarkTheme ? 'fa-sun text-gold' : 'fa-moon text-indigo'"></i>
           <span class="theme-btn-label">{{ isDarkTheme ? 'Light' : 'Dark' }}</span>
         </button>
 
-        <!-- Language Selector -->
-        <div class="lang-switcher">
+        <!-- Language Selector: Desktop Two-Pill Switcher & Mobile Single Toggle Button -->
+        <div class="lang-switcher desktop-lang-switcher">
           <button class="lang-btn" [class.active]="currentLang === 'en'" (click)="setLanguage('en')">ENG</button>
           <button class="lang-btn" [class.active]="currentLang === 'ta'" (click)="setLanguage('ta')">தமிழ்</button>
         </div>
+        <button class="mobile-lang-btn" (click)="toggleLanguage()"
+          [title]="currentLang === 'en' ? 'Switch to Tamil' : 'Switch to English'">
+          {{ currentLang === 'en' ? 'தமிழ்' : 'ENG' }}
+        </button>
 
         <!-- Quick Call Button -->
         <button class="btn-call-header" (click)="openCallPopup()">
@@ -68,55 +73,96 @@
         <div class="brand-logo">
           <i class="fa-solid fa-laptop-code"></i>
         </div>
-        <span class="brand-title">{{ t.nav.title }}</span>
+        <div class="brand-text">
+          <span class="brand-title">{{ t.nav.title }}</span>
+          <span class="brand-subtitle">{{ t.nav.subtitle }}</span>
+        </div>
       </div>
-      <button class="drawer-close-btn" (click)="closeMobileMenu()">
+      <button class="drawer-close-btn" (click)="closeMobileMenu()" aria-label="Close menu">
         <i class="fa-solid fa-xmark"></i>
       </button>
     </div>
 
-    <!-- Theme & Language Switchers in Mobile Drawer -->
-    <div class="drawer-controls-box">
-      <div class="drawer-control-row">
-        <span class="control-label">Theme / தீம்:</span>
-        <button class="theme-toggle-btn-drawer" (click)="toggleTheme()">
-          <i class="fa-solid" [ngClass]="isDarkTheme ? 'fa-sun text-gold' : 'fa-moon'"></i>
-          <span>{{ isDarkTheme ? 'Light Mode ☀️' : 'Dark Mode 🌙' }}</span>
-        </button>
+    <!-- Quick Preference Controls (Segmented Switchers) -->
+    <div class="drawer-preferences-box">
+      <!-- Theme Switcher Segment -->
+      <div class="pref-group">
+        <span class="pref-label"><i class="fa-solid fa-circle-half-stroke"></i> Theme / தீம்</span>
+        <div class="segmented-control">
+          <button class="segment-btn" [class.active]="!isDarkTheme" (click)="!isDarkTheme ? null : toggleTheme()">
+            <i class="fa-solid fa-sun text-gold"></i>
+            <span>Light</span>
+          </button>
+          <button class="segment-btn" [class.active]="isDarkTheme" (click)="isDarkTheme ? null : toggleTheme()">
+            <i class="fa-solid fa-moon text-indigo"></i>
+            <span>Dark</span>
+          </button>
+        </div>
       </div>
 
-      <div class="drawer-control-row mt-2">
-        <span class="control-label">Language / மொழி:</span>
-        <div class="lang-buttons">
-          <button class="lang-btn" [class.active]="currentLang === 'en'" (click)="setLanguage('en')">English</button>
-          <button class="lang-btn" [class.active]="currentLang === 'ta'" (click)="setLanguage('ta')">தமிழ்</button>
+      <!-- Language Switcher Segment -->
+      <div class="pref-group">
+        <span class="pref-label"><i class="fa-solid fa-globe"></i> Language / மொழி</span>
+        <div class="segmented-control">
+          <button class="segment-btn" [class.active]="currentLang === 'en'" (click)="setLanguage('en')">
+            <span>English</span>
+          </button>
+          <button class="segment-btn" [class.active]="currentLang === 'ta'" (click)="setLanguage('ta')">
+            <span>தமிழ்</span>
+          </button>
         </div>
       </div>
     </div>
 
+    <!-- Drawer Navigation Links -->
     <nav class="drawer-nav">
-      <a class="drawer-link" (click)="scrollToSection('home')">
-        <i class="fa-solid fa-house"></i> {{ t.nav.home }}
+      <a class="drawer-link" [class.active]="activeSection === 'home'" (click)="scrollToSection('home')">
+        <div class="drawer-icon-box">
+          <i class="fa-solid fa-house"></i>
+        </div>
+        <span class="drawer-link-text">{{ t.nav.home }}</span>
+        <i class="fa-solid fa-chevron-right drawer-arrow"></i>
       </a>
-      <a class="drawer-link" (click)="scrollToSection('services')">
-        <i class="fa-solid fa-list-check"></i> {{ t.nav.services }}
+
+      <a class="drawer-link" [class.active]="activeSection === 'services'" (click)="scrollToSection('services')">
+        <div class="drawer-icon-box">
+          <i class="fa-solid fa-list-check"></i>
+        </div>
+        <span class="drawer-link-text">{{ t.nav.services }}</span>
+        <i class="fa-solid fa-chevron-right drawer-arrow"></i>
       </a>
-      <a class="drawer-link" (click)="scrollToSection('about')">
-        <i class="fa-solid fa-circle-info"></i> {{ t.nav.about }}
+
+      <a class="drawer-link" [class.active]="activeSection === 'about'" (click)="scrollToSection('about')">
+        <div class="drawer-icon-box">
+          <i class="fa-solid fa-circle-info"></i>
+        </div>
+        <span class="drawer-link-text">{{ t.nav.about }}</span>
+        <i class="fa-solid fa-chevron-right drawer-arrow"></i>
       </a>
-      <a class="drawer-link" (click)="scrollToSection('hours')">
-        <i class="fa-solid fa-clock"></i> {{ t.nav.hours }}
+
+      <a class="drawer-link" [class.active]="activeSection === 'hours'" (click)="scrollToSection('hours')">
+        <div class="drawer-icon-box">
+          <i class="fa-solid fa-clock"></i>
+        </div>
+        <span class="drawer-link-text">{{ t.nav.hours }}</span>
+        <i class="fa-solid fa-chevron-right drawer-arrow"></i>
       </a>
-      <a class="drawer-link" (click)="scrollToSection('contact')">
-        <i class="fa-solid fa-location-dot"></i> {{ t.nav.contact }}
+
+      <a class="drawer-link" [class.active]="activeSection === 'contact'" (click)="scrollToSection('contact')">
+        <div class="drawer-icon-box">
+          <i class="fa-solid fa-location-dot"></i>
+        </div>
+        <span class="drawer-link-text">{{ t.nav.contact }}</span>
+        <i class="fa-solid fa-chevron-right drawer-arrow"></i>
       </a>
     </nav>
 
+    <!-- Drawer Actions -->
     <div class="drawer-actions">
-      <button class="btn-primary w-full" (click)="inquireServiceOnWhatsApp()">
+      <button class="btn-whatsapp-drawer" (click)="inquireServiceOnWhatsApp()">
         <i class="fa-brands fa-whatsapp"></i> {{ t.hero.whatsappBtn }}
       </button>
-      <button class="btn-secondary w-full" (click)="openCallPopup()">
+      <button class="btn-call-drawer" (click)="openCallPopup()">
         <i class="fa-solid fa-phone"></i> {{ t.hero.callBtn }}
       </button>
     </div>
@@ -201,7 +247,7 @@
     </div>
 
     <div class="services-grid">
-      
+
       <!-- Category 1: Govt Proof -->
       <div class="service-category-card glass-panel">
         <div class="card-header" (click)="openSubServiceCategory('aadhar')">
@@ -211,7 +257,8 @@
           <h3>{{ t.services.catAadhar }}</h3>
         </div>
         <ul class="preview-service-list">
-          <li *ngFor="let item of t.serviceItems.aadhar.slice(0, 5)" (click)="inquireServiceOnWhatsApp(item)" title="Click to chat on WhatsApp">
+          <li *ngFor="let item of t.serviceItems.aadhar.slice(0, 5)" (click)="inquireServiceOnWhatsApp(item)"
+            title="Click to chat on WhatsApp">
             <i class="fa-solid fa-circle-check"></i>
             <span class="service-name-text">{{ item }}</span>
             <i class="fa-brands fa-whatsapp wa-mini-icon"></i>
@@ -231,7 +278,8 @@
           <h3>{{ t.services.catOnline }}</h3>
         </div>
         <ul class="preview-service-list">
-          <li *ngFor="let item of t.serviceItems.online.slice(0, 5)" (click)="inquireServiceOnWhatsApp(item)" title="Click to chat on WhatsApp">
+          <li *ngFor="let item of t.serviceItems.online.slice(0, 5)" (click)="inquireServiceOnWhatsApp(item)"
+            title="Click to chat on WhatsApp">
             <i class="fa-solid fa-circle-check"></i>
             <span class="service-name-text">{{ item }}</span>
             <i class="fa-brands fa-whatsapp wa-mini-icon"></i>
@@ -251,7 +299,8 @@
           <h3>{{ t.services.catLand }}</h3>
         </div>
         <ul class="preview-service-list">
-          <li *ngFor="let item of t.serviceItems.land.slice(0, 5)" (click)="inquireServiceOnWhatsApp(item)" title="Click to chat on WhatsApp">
+          <li *ngFor="let item of t.serviceItems.land.slice(0, 5)" (click)="inquireServiceOnWhatsApp(item)"
+            title="Click to chat on WhatsApp">
             <i class="fa-solid fa-circle-check"></i>
             <span class="service-name-text">{{ item }}</span>
             <i class="fa-brands fa-whatsapp wa-mini-icon"></i>
@@ -271,7 +320,8 @@
           <h3>{{ t.services.catPrint }}</h3>
         </div>
         <ul class="preview-service-list">
-          <li *ngFor="let item of t.serviceItems.print.slice(0, 5)" (click)="inquireServiceOnWhatsApp(item)" title="Click to chat on WhatsApp">
+          <li *ngFor="let item of t.serviceItems.print.slice(0, 5)" (click)="inquireServiceOnWhatsApp(item)"
+            title="Click to chat on WhatsApp">
             <i class="fa-solid fa-circle-check"></i>
             <span class="service-name-text">{{ item }}</span>
             <i class="fa-brands fa-whatsapp wa-mini-icon"></i>
@@ -290,29 +340,41 @@
   <div class="modal-window" *ngIf="isSubServiceOpen">
     <div class="modal-header">
       <div class="modal-title-group">
-        <span class="modal-badge">{{ t.services.subServiceModalTitle }}</span>
-        <h3>{{ selectedCategoryTitle }}</h3>
+        <div class="modal-badge-wrapper">
+          <span class="modal-badge"><i class="fa-solid fa-layer-group"></i> {{ t.services.subServiceModalTitle }}</span>
+          <span class="modal-count-pill">{{ selectedSubServices.length }} {{ currentLang === 'ta' ? 'சேவைகள்' : 'services' }}</span>
+        </div>
+        <h3 class="modal-category-title">{{ selectedCategoryTitle }}</h3>
       </div>
-      <button class="modal-close-btn" (click)="closeSubServicePopup()">
+      <button class="modal-close-btn" (click)="closeSubServicePopup()" aria-label="Close modal">
         <i class="fa-solid fa-xmark"></i>
       </button>
     </div>
+    
     <div class="modal-body">
       <ul class="full-subservice-list">
-        <li *ngFor="let subItem of selectedSubServices" (click)="inquireServiceOnWhatsApp(subItem)">
+        <li *ngFor="let subItem of selectedSubServices" (click)="inquireServiceOnWhatsApp(subItem)" class="subservice-card">
           <div class="subservice-info">
-            <i class="fa-solid fa-circle-check check-icon"></i>
-            <span>{{ subItem }}</span>
+            <div class="subservice-check-icon">
+              <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <span class="subservice-name">{{ subItem }}</span>
           </div>
-          <button class="btn-inquire-whatsapp" (click)="$event.stopPropagation(); inquireServiceOnWhatsApp(subItem)">
-            <i class="fa-brands fa-whatsapp"></i> {{ t.services.inquireWhatsApp }}
+          <button class="btn-inquire-whatsapp" (click)="$event.stopPropagation(); inquireServiceOnWhatsApp(subItem)" [title]="t.services.inquireWhatsApp">
+            <i class="fa-brands fa-whatsapp"></i>
+            <span class="wa-btn-text">{{ currentLang === 'ta' ? 'வாட்ஸ்அப்' : 'Inquire' }}</span>
           </button>
         </li>
       </ul>
     </div>
+
     <div class="modal-footer">
-      <button class="btn-secondary" (click)="closeSubServicePopup()">
-        {{ t.services.closeModal }}
+      <div class="modal-footer-hint">
+        <i class="fa-brands fa-whatsapp wa-hint-icon"></i>
+        <span>{{ currentLang === 'ta' ? 'சேவை மீது கிளிக் செய்து வாட்ஸ்அப்பில் கேட்கலாம்' : 'Tap any service item to chat on WhatsApp' }}</span>
+      </div>
+      <button class="btn-modal-close" (click)="closeSubServicePopup()">
+        <i class="fa-solid fa-xmark"></i> {{ t.services.closeModal }}
       </button>
     </div>
   </div>

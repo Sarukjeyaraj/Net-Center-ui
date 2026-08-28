@@ -73,11 +73,11 @@ export class App implements OnInit {
     if (this.isDarkTheme) {
       document.body.classList.add('dark-theme');
       localStorage.setItem('knc_theme', 'dark');
-      this.showToastNotification(this.currentLang === 'ta' ? 'இருள் தீம் தேர்வானது 🌙' : 'Dark Theme Enabled 🌙');
+      this.showToastNotification(this.currentLang === 'ta' ? 'இருள் தீம் தேர்வானது' : 'Dark Theme Enabled');
     } else {
       document.body.classList.remove('dark-theme');
       localStorage.setItem('knc_theme', 'light');
-      this.showToastNotification(this.currentLang === 'ta' ? 'வெளிச்ச தீம் தேர்வானது ☀️' : 'Light Theme Enabled ☀️');
+      this.showToastNotification(this.currentLang === 'ta' ? 'வெளிச்ச தீம் தேர்வானது' : 'Light Theme Enabled');
     }
   }
 
@@ -86,6 +86,12 @@ export class App implements OnInit {
     this.currentLang = lang;
     localStorage.setItem('knc_lang', lang);
     this.showToastNotification(lang === 'ta' ? 'தமிழ் மொழி தேர்வு செய்யப்பட்டது' : 'English language selected');
+  }
+
+  // Toggle Language between English and Tamil for compact mobile button
+  toggleLanguage(): void {
+    const nextLang: Language = this.currentLang === 'en' ? 'ta' : 'en';
+    this.setLanguage(nextLang);
   }
 
   // Toggle Mobile Navigation Menu
